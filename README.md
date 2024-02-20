@@ -14,3 +14,4 @@ Resources:
 1. https://www.codecademy.com/learn/learn-object-oriented-programming-with-python
 2. https://www.coursera.org/learn/object-oriented-programming-and-gui-with-python
 3. https://www.coursera.org/learn/object-oriented-python
+4. https://dzone.com/articles/oop-concept-for-beginners-what-is-abstraction
