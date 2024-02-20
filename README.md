@@ -1,5 +1,6 @@
 # oop_python
-Concepts of Object Oriented Programming in Python with a project
+Concepts of Object Oriented Programming in Python with a project  
+
 This repository has basic oop script in python which has class, objects, attributes and methods
 
 The four important concepts in OOP are
