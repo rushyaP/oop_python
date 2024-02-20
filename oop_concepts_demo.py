@@ -8,7 +8,10 @@ class Person:
         self._race = race
         self._ethnicity = ethnicity
     def __str__(self):
-        return f'Name:{self.name} Gender:{self.gender},Age:{self.age},Race:{self.race},Ethnicity:{self.ethnicity}'
+        return f'Name:{self.name} Gender:{self.gender},Age:{self.age}'
+    def private_var_print(self):
+        return f'Race:{self.race},Ethnicity:{self.ethnicity}'
 
 per1 = Person('Jim','Male',28,'White','American')
 print(per1)
+per1.private_var_print()
