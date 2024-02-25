@@ -15,24 +15,23 @@ import os
 import numpy as np
 class Board:
 
-    def __init__(self):
-        self.rows = 3
-        self.columns = 3
+    def __init__(self,r,c):
+        self.rows = r
+        self.columns = c
         self.board = np.empty((self.rows,self.columns),dtype='str')
 
-    def display_board(self):
-        return self.board
+    def display(self):
+        print(self.board)
 
-    def update_board(self,player_choice,player):
+    def update(self,player_choice,player):
         if self.board[int(player_choice[0])-1,int(player_choice[1])-1]=='':
             self.board[int(player_choice[0])-1,int(player_choice[1])-1] = player
         else:
             print('This position is taken. Please give another position')
-        return self.display_board()
-    
+        return self.board
 
-    #Across Match check
-    def across_board_check(self,player):
+    #Row-wise Match check
+    def across_check(self,player):
         for i in range(0,self.board.shape[0]):#row
             c=0
             for j in range(0,self.board.shape[1]):#column
@@ -44,8 +43,8 @@ class Board:
                 break    
             else:
                 continue
-    # Below Match check
-    def below_board_check(self,player):
+    # Column-wise Match check
+    def below_check(self,player):
         for i in range(0,self.board.shape[0]):#column
             d=0
             for j in range(0,self.board.shape[1]):#row
@@ -59,7 +58,7 @@ class Board:
                 continue
 
     # Diagonal Match check
-    def diagonal_board_check(self,player):
+    def diagonal_check(self,player):
         if self.board[0,0]==player and self.board[1,1]==player and self.board[2,2]==player:
             print('Player {p} wins'.format(p=player))
             return False
@@ -69,29 +68,30 @@ class Board:
         else:
             pass
 
+input_board=list(input('Welcome to Tic-Tac-Toe Game. Select your desired dimension for the game in xy format.'))
+board=Board(int(input_board[0]),int(input_board[1]))
+
 def clear_screen():
     os.system('cls')
 
-clear_screen()
-
-input("Welcome to Tic-Tac-Toe Game. Select your desired dimension for the game. Press Enter to Continue")
-b=Board()
-print(b.display_board())
+def setup_screen():
+    clear_screen()
+    board.display()
 
 while True:
+    setup_screen()
     x_choice=list(input("X) Where do you want to mark your position? Enter row and column number in xy format"))
-    b.update_board(x_choice,'X')
-    
-
-    b.below_board_check('X')
-    b.diagonal_board_check('X')
-
-
+    board.update(x_choice,'X')
+    board.display()
+    board.across_check('X')
+    board.below_check('X')
+    board.diagonal_check('X')
+    print("---------------------------------")
     o_choice=list(input("O) Where do you want to mark your position? Enter row and column number in xy format"))
-    y=b.update_board(o_choice,'O')
-    print(y)
-
-    b.below_board_check('O')
-    b.diagonal_board_check('O')
+    board.update(o_choice,'O')
+    board.display()
+    board.across_check('X')
+    board.below_check('O')
+    board.diagonal_check('O')
 
 
