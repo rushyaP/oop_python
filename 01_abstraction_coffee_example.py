@@ -52,7 +52,7 @@ class CoffeeBrewer:
             return None
         
 class CoffeeMachine:
-    #Available strenghts - Light, Medium Strong
+    #Available strengths - Light, Medium Strong
     def __init__(self,input_bean, input_kind,input_strength):
         self.selected_bean = input_bean
         self.selected_kind = input_kind

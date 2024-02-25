@@ -1,0 +1,1 @@
+print('Player {player_name} wins'.format(player_name='X'))
