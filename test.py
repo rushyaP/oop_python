@@ -24,11 +24,14 @@ class Board:
         print(self.board)
 
     def update(self,player_choice,player):
-        if self.board[int(player_choice[0])-1,int(player_choice[1])-1]=='':
-            self.board[int(player_choice[0])-1,int(player_choice[1])-1] = player
-        else:
-            print('This position is taken. Please give another position')
-        return self.board
+        try:
+            if self.board[int(player_choice[0])-1,int(player_choice[1])-1]=='':
+                self.board[int(player_choice[0])-1,int(player_choice[1])-1] = player
+            else:
+                print('This position is taken. Please give another position')
+            return self.board
+        except (ValueError,IndexError):
+            print('Please give row and column number in xy format')
 
     #Row-wise Match check
     def across_check(self,player):
@@ -40,7 +43,6 @@ class Board:
                         c+=1
             if c==self.board.shape[0]-1:
                 print('Player {p} wins'.format(p=player))
-                break    
             else:
                 continue
     # Column-wise Match check
@@ -76,7 +78,6 @@ def clear_screen():
 
 def setup_screen():
     clear_screen()
-    board.display()
 
 while True:
     setup_screen()
@@ -87,6 +88,7 @@ while True:
     board.below_check('X')
     board.diagonal_check('X')
     print("---------------------------------")
+    clear_screen()
     o_choice=list(input("O) Where do you want to mark your position? Enter row and column number in xy format"))
     board.update(o_choice,'O')
     board.display()
