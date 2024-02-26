@@ -27,15 +27,23 @@ class TictacToe:
             self.update_board(x_choice,'X')
             self.display_board(self.board)
             if self.match_check('X'):
-                #play_again=input("Do you want to play again? Give Y/N")
-                break
+                play_again = input("Do you want to play again? Give Y/N")
+                if play_again.upper()=='Y':
+                    self.start_game()
+                else:
+                    print('Hope you have enjoyed the game')
+                    break
                     
             o_choice=list(input("\nO) Where do you want to mark your position? Enter row and column number in xy format"))
             self.update_board(o_choice,'O')
             self.display_board(self.board)
             if self.match_check('O'):
-                play_again=input("Do you want to play again? Give Y/N")
-                break
+                play_again = input("Do you want to play again? Give Y/N")
+                if play_again.upper()=='Y':
+                    self.start_game()
+                else:
+                    print('Hope you have enjoyed the game')
+                    break
             
 
     def update_board(self,player_choice,player):
@@ -49,6 +57,9 @@ class TictacToe:
             return True
         else:
             return False
+        
+    def match_tie_check(self):
+        pass
     
     #Row-wise Match check
     def across_check(self,player):
@@ -87,14 +98,8 @@ class TictacToe:
             print('Player {p} wins!'.format(p=player))
             return True
     
-   
-            
-       
-    
-
-    
+      
 tk = TictacToe()
 print(tk.start_game())
-print(tk.play_game())
 
     

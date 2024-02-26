@@ -1,24 +1,18 @@
 import numpy as np
-r=3
-c=3
-arr =np.full((r,c),' ',dtype='str')
-arr[0,0]='X'
-arr[1,1]='X'
-arr[2,2]='X'
 
-print(arr.shape[1])
-list_view = [[' ' for i in range(arr.shape[1])] for i in range(arr.shape[0])]
-print("|".join(['f','k','p']))
-print(list_view)
+# Example 3x3 array
+array = np.array([[1, 2, 3],
+                  [4, 5, 6],
+                  [7, 8, 9]])
 
-for row in list_view:
-    print("|".join(row))
-    print("-"*5)
-what=[[arr[i,j] for j in range(3)] for i in range(3)]
-for row in what:
-    print("|".join(row))
-    print("-"*5)
+# List of values to check against
+values_to_check = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+# Flatten the array into a single list
+flattened_array = array.flatten()
 
+# Check if all elements of the flattened array are in the list of values
+result = all(element in values_to_check for element in flattened_array)
 
-
+# Print the result
+print(result)  # Output will be True
