@@ -1,15 +1,24 @@
 import numpy as np
-class Board:
+r=3
+c=3
+arr =np.full((r,c),' ',dtype='str')
+arr[0,0]='X'
+arr[1,1]='X'
+arr[2,2]='X'
 
-    def __init__(self,r,c):
-        self.rows = r
-        self.columns = c
-        self.board = np.empty((self.rows,self.columns),dtype='str')
+print(arr.shape[1])
+list_view = [[' ' for i in range(arr.shape[1])] for i in range(arr.shape[0])]
+print("|".join(['f','k','p']))
+print(list_view)
 
-    def display(self):
-        print(self.board)
+for row in list_view:
+    print("|".join(row))
+    print("-"*5)
+what=[[arr[i,j] for j in range(3)] for i in range(3)]
+for row in what:
+    print("|".join(row))
+    print("-"*5)
 
-input_board=list(input("Welcome to Tic-Tac-Toe Game. Select your desired dimension for the game in xy format."))
-print(input_board)
-board=Board(int(input_board[0]),int(input_board[1]))
+
+
 
