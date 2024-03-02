@@ -103,8 +103,6 @@ class TictacToe:
 
     
     def fits_board(self,player_choice):
-        #print(int(player_choice[0]),self.rows,int(player_choice[1]))
-        #print(type(int(player_choice[0])),type(self.rows),type(int(player_choice[1])))
         if int(player_choice[0])<=self.rows and int(player_choice[-1])<=self.cols:
             return True
         else:
@@ -175,14 +173,20 @@ class TictacToe:
             else:
                 continue
 
-    # Diagonal Match check
-    def diagonal_check(self): # Update for any dimension game
-        if self.board[0,0]==self.player and self.board[1,1]==self.player and self.board[2,2]==self.player:
+        
+    def diagonal_check(self): # Update=ing any dimension game
+        # Check main diagonal (top-left to bottom-right)
+        main_diagonal = [self.board[i, i] for i in range(min(self.rows, self.cols))]
+        if all(symbol == self.player for symbol in main_diagonal):
             print('Player {p} wins!'.format(p=self.player))
             return True
-        if self.board[0,2]==self.player and self.board[1,1]==self.player and self.board[2,0]==self.player:
+
+        # Check secondary diagonal (top-right to bottom-left)
+        secondary_diagonal = [self.board[i, self.cols - i - 1] for i in range(min(self.rows, self.cols))]
+        if all(symbol == self.player for symbol in secondary_diagonal):
             print('Player {p} wins!'.format(p=self.player))
             return True
+                 
     
 if __name__ == "__main__":
     tk = TictacToe()
