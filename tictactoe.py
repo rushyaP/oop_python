@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 class TictacToe:
 
@@ -74,10 +75,12 @@ class TictacToe:
 
     def play_game(self):
         while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
             player_choice=self.player_input(self.player) # gets the player_choice in right format
             self.update_board(player_choice)   # updates the board
             self.display_board() # displays the updated board
             if self.is_win():  # check for win
+                self.display_board()
                 self.end_game()
                 break
             else:
