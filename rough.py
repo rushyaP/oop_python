@@ -1,18 +1,9 @@
-import numpy as np
-
-# Example 3x3 array
-array = np.array([[1, 2, 3],
-                  [4, 5, 6],
-                  [7, 8, 9]])
-
-# List of values to check against
-values_to_check = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-# Flatten the array into a single list
-flattened_array = array.flatten()
-
-# Check if all elements of the flattened array are in the list of values
-result = all(element in values_to_check for element in flattened_array)
-
-# Print the result
-print(result)  # Output will be True
+def is_valid(input_list):
+    if input_list[0].isdigit() and input_list[-1].isdigit():
+        return True
+    else:
+        print('Invalid input. Please give only numbers')
+        return False
+    
+player_choice=input("{player}'s turn: Where do you want to mark your position? Enter row and column number in x,y format".format(player='X'))
+print([int(i) for i in player_choice.split(',')])

@@ -1,163 +1,188 @@
 import numpy as np
+
 class TictacToe:
 
     def __init__(self):
-        self.rows = 0
-        self.cols = 0
+        self.rows = None
+        self.cols = None
+        self.player='X'
+        print('Welcome to Tic-Tac-Toe Game')
+    
+    def setRows(self,rows):
+        self.rows=rows
+    def setCols(self,cols):
+        self.cols=cols
+    def getRows(self):
+        return self.rows
+    def getCols(self):
+        return self.cols
 
     def start_game(self):
-        input_board=list(input('Welcome to Tic-Tac-Toe Game. Select your desired dimension for the game in xy format.'))
-        self.set_reset_board(int(input_board[0]),int(input_board[-1]))
+        while True:
+            i_rows=input('How many rows do you want ?')
+            i_cols=input('How many columns do you want ?')
+            if self.is_valid([i_rows,i_cols]):
+                self.setRows(int(i_rows))
+                self.setCols(int(i_cols))
+                self.set_reset_board()
+                break
+
+    def is_valid(self,input_list):
+        if input_list[0].isdigit() and input_list[-1].isdigit():
+            return True
+        else:
+            print('Invalid input. Please give only numbers')
+            return False
     
-    def set_reset_board(self,rows,cols):
-        self.board = np.full((rows,cols),' ',dtype='str')
-        self.display_board(self.board)
+    def set_reset_board(self):
+        self.board = np.full((self.rows,self.cols),' ',dtype='str')
+        self.display_board()
         self.play_game()
     
-    def display_board(self,board):
-       print('before lsit view')
-       list_view=[[board[i,j] for j in range(board.shape[1])] for i in range(board.shape[0])]
-       print('after list view')
+    def display_board(self):
+       list_view=[[self.board[i,j] for j in range(self.board.shape[1])] for i in range(self.board.shape[0])]
        for row in list_view:
             print("|".join(row))
-            print("-"*(board.shape[1]+3))
+            print("-"*(self.board.shape[1]+3))
 
-    def some_func(self):
-        while(True):
-            board_upd_st=self.update_board(x_choice,'X')
-            if not board_upd_st:
-                print('Regive')
-            self.display_board(self.board)
-            if self.match_check('X'):
-                self.end_game()
-                break
 
-    def player_x_input(self):
-        print('here')
-        x_choice=list(input("\nX) Where do you want to mark your position? Enter row and column number in xy format"))
-        self.update_board(x_choice,'X')
-        #return x_choice
+    def player_input(self,player):
+        while True:
+            player_choice=input("{player}'s turn: Where do you want to mark your position? Enter row and column number in x,y format".format(player=player))
+            if self.player_choice_validations(player_choice):
+                return player_choice.split(',')
+            
+    def player_choice_validations(self,player_choice):
+        player_choice_re=player_choice.split(',')
+        if self.player_choice_prelim_validation(player_choice) and self.is_valid(player_choice_re) and self.fits_board(player_choice_re) and self.player_choice_fill_check(player_choice_re):
+            return True
+        else:
+            return False
     
-    def player_o_input(self):
-        o_choice=list(input("\nO) Where do you want to mark your position? Enter row and column number in xy format"))
-        self.update_board(o_choice,'O')
-        #return o_choice
+    def player_choice_prelim_validation(self,player_choice):
+        if ',' in player_choice: # checks if given in x,y format
+            player_choice = player_choice.split(',')
+            return player_choice
+        else:
+            print("Please give your choice in x,y format")
+            return False
+
+    
+    def switch_players(self):
+        self.player='O' if self.player =='X' else 'X'
+    
 
     def play_game(self):
-        print('play func begining')
         while True:
-            self.player_x_input()
-            self.player_o_input()
-        """
-        while True:
-            x_choice=list(input("\nX) Where do you want to mark your position? Enter row and column number in xy format"))
-            #if x_choice[0]<=self.rows and x_choice[-1]<=self.cols
-            if self.board[int(x_choice[0])-1,int(x_choice[-1])-1]==' ':
-                board_upd_st=self.update_board(x_choice,'X')
-                self.display_board(self.board)
-                if self.match_check('X'):
-                    self.end_game()
-                    break
-            else:
-                print('Regive')
-            
-        
-        while True:            
-            o_choice=list(input("\nO) Where do you want to mark your position? Enter row and column number in xy format"))
-            self.update_board(o_choice,'O')
-            self.display_board(self.board)
-            if self.match_check('O'):
+            player_choice=self.player_input(self.player) # gets the player_choice in right format
+            self.update_board(player_choice)   # updates the board
+            self.display_board() # displays the updated board
+            if self.is_win():  # check for win
                 self.end_game()
                 break
-            """ 
+            else:
+                print('Swapping players')
+                self.switch_players()
 
+    
     def end_game(self):
         while(True):
             play_again = input("Do you want to play again? Give Y/N")
             if play_again.upper()=='Y':
+                self.player='X'
                 self.start_game()
                 break
-            elif play_again.upper() not in ['Y','N']:
-                print("Invalid input. Please give y or n")
-            else:
+            elif play_again.upper()=='N':
                 print('Hope you have enjoyed the game')
                 break
-                #return False
-                
-
-    def update_board(self,player_choice,player):
-        while True:
-            if self.board[int(player_choice[0])-1,int(player_choice[-1])-1]==' ':
-                self.board[int(player_choice[0])-1,int(player_choice[-1])-1] = player
-                self.display_board(self.board)
-                if self.match_check(player) or self.match_tie_check():
-                    self.end_game()
-                    #break
             else:
-                print('This position is taken. Please give another position')
-                if player=='X':
-                    self.player_x_input()
-                else:
-                    self.player_o_input()
-            return False
+                print("Invalid input. Please give y or n")
 
-    def match_check(self,player):
-        if self.across_check(player) or self.below_check(player) or self.diagonal_check(player):
+    
+    def fits_board(self,player_choice):
+        #print(int(player_choice[0]),self.rows,int(player_choice[1]))
+        #print(type(int(player_choice[0])),type(self.rows),type(int(player_choice[1])))
+        if int(player_choice[0])<=self.rows and int(player_choice[-1])<=self.cols:
+            return True
+        else:
+            print('Input does not fit the board. Please give x,y fitting the board size {r},{c}'.format(r=self.rows,c=self.cols))
+            return False
+        
+    def is_win(self):
+        if self.match_check() or self.match_tie_check():
+            return True
+        else:
+            return False
+        
+    def player_choice_fill_check(self,player_choice):
+         #checks if a player_choice position is not filled
+         if self.board[int(player_choice[0])-1,int(player_choice[-1])-1]==' ':
+            return True
+         else:
+            print('This position is taken. Please give another position')
+            return False
+             
+
+             
+    def update_board(self,player_choice):
+        self.board[int(player_choice[0])-1,int(player_choice[-1])-1] = self.player
+        
+
+    def match_check(self):
+        if self.across_check() or self.below_check() or self.diagonal_check():
+            print('{player} wins!'.format(player=self.player))
             return True
         else:
             return False
         
     def match_tie_check(self):
-        c=0
-        for r in range(0,len(self.board)):
-            print('rows',len(self.board))
-            for c in range(0,len(self.board[0])):
-                print('cols',len(self.board[0]))
-                if self.board[r,c]!=' ':
-                    c+=1
-        print(c)
-        return c==self.rows*self.cols
+        filled_spots = np.count_nonzero(self.board!=' ')
+        if filled_spots == self.rows*self.cols:
+            print('The match is tied')
+            return True
+        else:
+            return False
 
     
     #Row-wise Match check
-    def across_check(self,player):
+    def across_check(self):
         for i in range(0,self.board.shape[0]):#row
             c=0
             for j in range(0,self.board.shape[1]):#column
                 if j<self.board.shape[1]-1: #should be 1 less than no.of cols
-                    if self.board[i,j] == player and self.board[i,j+1] == player:
+                    if self.board[i,j] == self.player and self.board[i,j+1] == self.player:
                         c+=1
             if c==self.board.shape[1]-1:
-                print('Player {p} wins'.format(p=player))
+                print('Player {p} wins'.format(p=self.player))
                 return True
             else:
                 continue
     
     # Column-wise Match check
-    def below_check(self,player):
+    def below_check(self):
         for i in range(0,self.board.shape[1]):#column
             d=0
             for j in range(0,self.board.shape[0]):#row
                 if j<self.board.shape[0]-1: #4-1=3
-                    if self.board[j,i]==player and self.board[j+1,i]==player:#2=3
+                    if self.board[j,i]==self.player and self.board[j+1,i]==self.player:#2=3
                         d+=1
             if d==self.board.shape[0]-1:
-                print('Player {p} wins!'.format(p=player))
+                print('Player {p} wins!'.format(p=self.player))
                 return True    
             else:
                 continue
 
     # Diagonal Match check
-    def diagonal_check(self,player): # Update for any dimension game
-        if self.board[0,0]==player and self.board[1,1]==player and self.board[2,2]==player:
-            print('Player {p} wins!'.format(p=player))
+    def diagonal_check(self): # Update for any dimension game
+        if self.board[0,0]==self.player and self.board[1,1]==self.player and self.board[2,2]==self.player:
+            print('Player {p} wins!'.format(p=self.player))
             return True
-        if self.board[0,2]==player and self.board[1,1]==player and self.board[2,0]==player:
-            print('Player {p} wins!'.format(p=player))
+        if self.board[0,2]==self.player and self.board[1,1]==self.player and self.board[2,0]==self.player:
+            print('Player {p} wins!'.format(p=self.player))
             return True
     
       
 tk = TictacToe()
-print(tk.start_game())
+tk.start_game()
 
     
