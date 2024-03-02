@@ -184,8 +184,8 @@ class TictacToe:
             print('Player {p} wins!'.format(p=self.player))
             return True
     
-      
-tk = TictacToe()
-tk.start_game()
+if __name__ == "__main__":
+    tk = TictacToe()
+    tk.start_game()
 
     
